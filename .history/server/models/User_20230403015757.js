@@ -30,9 +30,9 @@ const UserSchema = new mongoose.Schema(
     //   //   required: true,
     // },
     wallet_pin: {
-      type: String,
+      type: Number,
       minlength: 5,
-
+      maxlength: 5,
       required: true,
     },
     initial_deposit: {

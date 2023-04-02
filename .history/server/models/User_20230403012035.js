@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema(
   {
-    username: {
+    name: {
       type: String,
       required: true,
       minlength: 5,
@@ -17,33 +17,15 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 5,
+      minlength: 8,
       maxlength: 1024,
     },
     accountno: {
       type: String,
       required: true,
-      unique: true,
     },
-    // wallet_id: {
-    //   type: Number,
-    //   //   required: true,
-    // },
-    wallet_pin: {
-      type: String,
-      minlength: 5,
-
-      required: true,
-    },
-    initial_deposit: {
+    wallet_id: {
       type: Number,
-      required: true,
-    },
-    withdrawal: {
-      type: [Number],
-    },
-    deposit: {
-      type: [Number],
     },
   },
   { timestamps: true }

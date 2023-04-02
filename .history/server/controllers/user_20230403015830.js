@@ -4,9 +4,7 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync(10);
-    const salt_pin = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
-    const pin = bcrypt.hashSync(req.body.pin, salt_pin);
     const acc = Math.floor(Math.random() * 10000000000);
 
     console.log("register");
@@ -15,9 +13,9 @@ export const register = async (req, res, next) => {
       email: req.body.email,
       password: hash,
       accountno: acc,
-      wallet_pin: pin,
+      wallet_pin: req.body.pin,
       initial_deposit: req.body.initial_deposit,
-      deposit: req.body.initial_deposit,
+      depoit,
     });
     await newUser.save();
     res.status(200).send("user has been registered");
