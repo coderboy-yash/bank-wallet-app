@@ -19,12 +19,6 @@ const UserSchema = new mongoose.Schema(
       required: true,
       type: Number,
     },
-    withdrawals: {
-      type: [Number],
-    },
-    deposits: {
-      type: [Number],
-    },
   },
   {
     timestamps: true,

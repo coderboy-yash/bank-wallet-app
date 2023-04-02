@@ -20,10 +20,7 @@ const UserSchema = new mongoose.Schema(
       type: Number,
     },
     withdrawals: {
-      type: [Number],
-    },
-    deposits: {
-      type: [Number],
+      type: [],
     },
   },
   {
