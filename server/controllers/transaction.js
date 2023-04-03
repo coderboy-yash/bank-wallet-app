@@ -20,9 +20,34 @@ export const transaction = async (req, res, next) => {
   const new_sender_balance = sender_bal - amount;
   const new_reciever_balance = reciever_bal + amount;
   const senderId = sender._id;
+  let senderWithdraw = sender.withdrawal;
+  // console.log(sender.deposit.push(99));
+  let recieverDeposit = reciever.deposit;
+  console.log("recieverDeposit", recieverDeposit[0]);
+  console.log("senderwithdraw", senderWithdraw[0]);
+  let today = new Date();
+  let date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  let time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  let dateTime = date + " " + time;
+  senderWithdraw.push({
+    amount: amount,
+    send_to: reciever.accountno,
+    time: dateTime,
+  });
+
+  recieverDeposit.push({
+    amount: amount,
+    recieved_from: sender.accountno,
+    time: dateTime,
+  });
+  console.log("recieverDeposit", recieverDeposit);
+  console.log("senderwithdraw", senderWithdraw);
+
   const updateNewSenderBal = await User.findByIdAndUpdate(
     senderId,
-    { balance: new_sender_balance },
+    { balance: new_sender_balance, withdrawal: senderWithdraw },
     {
       new: true,
     }
@@ -31,7 +56,7 @@ export const transaction = async (req, res, next) => {
   const recieverId = reciever._id;
   const updatRecieverBal = await User.findByIdAndUpdate(
     recieverId,
-    { balance: new_reciever_balance },
+    { balance: new_reciever_balance, deposit: recieverDeposit },
     {
       new: true,
     }

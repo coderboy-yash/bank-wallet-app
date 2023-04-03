@@ -37,10 +37,10 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     withdrawal: {
-      type: [Number],
+      type: [],
     },
     deposit: {
-      type: [Number],
+      type: [],
     },
     balance: {
       type: Number,

@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import userRoute from "./routes/user.js";
+import adminRoute from "./routes/admin.js";
 const app = express();
 dotenv.config();
 const connect = async () => {
@@ -15,6 +16,7 @@ const connect = async () => {
 // middlleware
 app.use(express.json());
 app.use("/user", userRoute);
+app.use("/admin", adminRoute);
 
 app.listen(8000, () => {
   connect();

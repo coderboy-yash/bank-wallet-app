@@ -17,7 +17,7 @@ export const register = async (req, res, next) => {
       accountno: acc,
       wallet_pin: pin,
       initial_deposit: req.body.initial_deposit,
-      deposit: req.body.initial_deposit,
+      // deposit: req.body.initial_deposit,
       balance: req.body.initial_deposit,
     });
     await newUser.save();
