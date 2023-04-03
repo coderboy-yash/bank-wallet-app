@@ -25,10 +25,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    // wallet_id: {
-    //   type: Number,
-    //   //   required: true,
-    // },
+
     wallet_pin: {
       type: String,
       minlength: 5,
@@ -44,6 +41,9 @@ const UserSchema = new mongoose.Schema(
     },
     deposit: {
       type: [Number],
+    },
+    balance: {
+      type: Number,
     },
   },
   { timestamps: true }

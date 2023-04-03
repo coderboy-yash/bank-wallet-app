@@ -18,6 +18,7 @@ export const register = async (req, res, next) => {
       wallet_pin: pin,
       initial_deposit: req.body.initial_deposit,
       deposit: req.body.initial_deposit,
+      balance: req.body.initial_deposit,
     });
     await newUser.save();
     res.status(200).send("user has been registered");
