@@ -16,18 +16,18 @@ const connect = async () => {
 };
 // middlleware
 app.use(express.json());
-app.use((req, res, next) => {
-  let old = res.send;
-  console.log(req.url);
-  logger.info(`request-url: ${req.url}`);
-  res.send = (...data) => {
-    logger.info(`response:- ${data}`);
-    console.log(data);
+// app.use((req, res, next) => {
+//   let old = res.send;
+//   // console.log(req.url);
+//   logger.info(`request-url: ${req.url}`);
+//   res.send = (...data) => {
+//     logger.info(`response:- ${data}`);
+//     // console.log(data);
 
-    old.apply(res, data);
-  };
-  next();
-});
+//     old.apply(res, data);
+//   };
+//   next();
+// });
 
 app.use("/user", userRoute);
 app.use("/admin", adminRoute);

@@ -8,6 +8,16 @@ export const register = async (req, res, next) => {
     const hash = bcrypt.hashSync(req.body.password, salt);
     const pin = bcrypt.hashSync(req.body.pin, salt_pin);
     const acc = Math.floor(Math.random() * 10000000000);
+    const isAdmin = req.body.isAdmin || false;
+    console.log(isAdmin);
+
+    if (isAdmin) {
+      const admin = await User.findOne({ isAdmin: isAdmin });
+      if (admin)
+        return res.send(
+          "you cannot register as an admin, admin is already registered"
+        );
+    }
 
     console.log("register");
     const newUser = new User({
@@ -19,6 +29,7 @@ export const register = async (req, res, next) => {
       initial_deposit: req.body.initial_deposit,
       // deposit: req.body.initial_deposit,
       balance: req.body.initial_deposit,
+      isAdmin: isAdmin,
     });
     await newUser.save();
     res.status(200).send("user has been registered");
