@@ -29,7 +29,7 @@ export const register = async (req, res, next) => {
 };
 export const login = async (req, res) => {
   try {
-    console.log("body", req.body.email);
+    // console.log("body", req.body.email);
     const user = await User.findOne({
       email: req.body.email,
     });

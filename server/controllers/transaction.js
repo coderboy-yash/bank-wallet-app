@@ -23,8 +23,8 @@ export const transaction = async (req, res, next) => {
   let senderWithdraw = sender.withdrawal;
   // console.log(sender.deposit.push(99));
   let recieverDeposit = reciever.deposit;
-  console.log("recieverDeposit", recieverDeposit[0]);
-  console.log("senderwithdraw", senderWithdraw[0]);
+  // console.log("recieverDeposit", recieverDeposit[0]);
+  // console.log("senderwithdraw", senderWithdraw[0]);
   let today = new Date();
   let date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
@@ -42,8 +42,8 @@ export const transaction = async (req, res, next) => {
     recieved_from: sender.accountno,
     time: dateTime,
   });
-  console.log("recieverDeposit", recieverDeposit);
-  console.log("senderwithdraw", senderWithdraw);
+  // console.log("recieverDeposit", recieverDeposit);
+  // console.log("senderwithdraw", senderWithdraw);
 
   const updateNewSenderBal = await User.findByIdAndUpdate(
     senderId,
@@ -62,4 +62,5 @@ export const transaction = async (req, res, next) => {
     }
   );
   return res.send("transaction successfully updated");
+  next();
 };
