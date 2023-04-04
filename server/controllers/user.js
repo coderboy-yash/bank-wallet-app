@@ -19,7 +19,10 @@ export const register = async (req, res, next) => {
           "you cannot register as an admin, admin is already registered"
         );
     }
-
+    if (req.body.pin.length < 6)
+      return res.send("pin should be atleast 6 digit long");
+    if (req.body.password.length < 6)
+      return res.send("password should be atleast 6 digit long");
     console.log("register");
     const newUser = new User({
       username: req.body.username.trim(),
@@ -38,7 +41,7 @@ export const register = async (req, res, next) => {
       expires: new Date(Date.now() + 50000),
       httpOnly: true,
     });
-    console.log(token, "from register");
+    // console.log(token, "from register");
 
     await newUser.save();
     res.status(200).send("user has been registered");
@@ -64,7 +67,7 @@ export const login = async (req, res) => {
 
     // generate token
     const token = await user.generateAuthToken();
-    console.log(token, "from login");
+    // console.log(token, "from login");
     res.cookie("jwt", token, {
       expires: new Date(Date.now() + 30000),
       httpOnly: true,
@@ -76,15 +79,43 @@ export const login = async (req, res) => {
       res.status(201).send("incorrect password");
       return;
     } else {
-      res.send(user);
-      console.log("logged in successfully");
+      const person = [
+        {
+          username: user.username,
+          account_no: user.accountno,
+          balance: user.balance,
+          initial_deposit: user.initial_deposit,
+          money_recieved: user.deposit,
+          money_send: user.withdrawal,
+        },
+        {
+          cookie: req.cookies.jwt,
+        },
+      ];
+      res.status(200).send(person);
+      console.log(
+        "logged in successfully",
+        "get your cookie:-",
+        req.cookies.jwt
+      );
     }
   } catch (err) {
     console.log(err);
   }
 };
 
-export const logout = (req, res) => {
+export const logout = async (req, res) => {
   try {
-  } catch (err) {}
+    // console.log("hello", req.user);
+    req.user.tokens = req.user.tokens.filter((item) => {
+      return item.token !== req.token;
+    });
+    res.clearCookie("jwt");
+    console.log("logout successfully");
+
+    await req.user.save();
+    res.send("logout successfully");
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };

@@ -20,8 +20,6 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 5,
-      maxlength: 1024,
     },
     accountno: {
       type: String,
@@ -31,7 +29,6 @@ const UserSchema = new mongoose.Schema(
 
     wallet_pin: {
       type: String,
-      minlength: 5,
 
       required: true,
     },
@@ -66,9 +63,9 @@ const UserSchema = new mongoose.Schema(
 // generating tokens
 UserSchema.methods.generateAuthToken = async function () {
   try {
-    console.log("secret", process.env.secret);
+    // console.log("secret", process.env.secret);
     const token = jwt.sign({ _id: this._id.toString() }, process.env.secret, {
-      expiresIn: "60s",
+      expiresIn: "10h",
     });
     this.tokens = this.tokens.concat({ token: token });
     await this.save();
