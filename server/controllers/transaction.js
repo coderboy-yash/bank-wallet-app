@@ -1,11 +1,24 @@
 import User from "../models/User.js";
+import jwt from "jsonwebtoken";
+
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
+import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
+
+const app = express();
+app.use(cookieParser());
 export const transaction = async (req, res, next) => {
-  const sender_account = req.body.sender_account;
+  const token = req.cookies.jwt;
+  const sender_account = jwt.verify(token, process.env.secret);
+  // console.log("cookie", req.cookies.jwt);
+
+  // const sender_account = req.body.sender_account;
   const reciever_account = req.body.reciever_account;
   const pin = req.body.pin;
   const amount = req.body.amount;
-  const sender = await User.findOne({ accountno: sender_account });
+  const sender = await User.findOne({ _id: sender_account._id });
   const reciever = await User.findOne({ accountno: reciever_account });
   if (!reciever || !sender) return res.send("sender or user ac no is invalid");
 

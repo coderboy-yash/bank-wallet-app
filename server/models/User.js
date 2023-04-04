@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -49,7 +52,30 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
+// generating tokens
+UserSchema.methods.generateAuthToken = async function () {
+  try {
+    console.log("secret", process.env.secret);
+    const token = jwt.sign({ _id: this._id.toString() }, process.env.secret, {
+      expiresIn: "60s",
+    });
+    this.tokens = this.tokens.concat({ token: token });
+    await this.save();
+    //
+    return token;
+  } catch (err) {
+    console.log(err);
+  }
+};
 export default mongoose.model("user", UserSchema);

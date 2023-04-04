@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
 export const register = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync(10);
@@ -31,6 +32,14 @@ export const register = async (req, res, next) => {
       balance: req.body.initial_deposit,
       isAdmin: isAdmin,
     });
+    // token
+    const token = await newUser.generateAuthToken();
+    res.cookie("jwt", token, {
+      expires: new Date(Date.now() + 50000),
+      httpOnly: true,
+    });
+    console.log(token, "from register");
+
     await newUser.save();
     res.status(200).send("user has been registered");
   } catch (err) {
@@ -52,6 +61,17 @@ export const login = async (req, res) => {
       req.body.password,
       user.password
     );
+
+    // generate token
+    const token = await user.generateAuthToken();
+    console.log(token, "from login");
+    res.cookie("jwt", token, {
+      expires: new Date(Date.now() + 30000),
+      httpOnly: true,
+    });
+    // console.log("cookie", req.cookies.jwt);
+
+    // console.log(cookie);
     if (!isPasswordCorrect) {
       res.status(201).send("incorrect password");
       return;
@@ -62,4 +82,9 @@ export const login = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const logout = (req, res) => {
+  try {
+  } catch (err) {}
 };
