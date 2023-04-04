@@ -20,8 +20,8 @@ app.use((req, res, next) => {
   console.log(req.body);
   res.send = function (data) {
     logger.info(data);
+    next();
   };
-  next();
 });
 
 app.use("/user", userRoute);
