@@ -29,4 +29,6 @@ YOU have to provide VALID JWT/COOKIE ALWAYS otherwise
 ![image](https://user-images.githubusercontent.com/109899959/229935325-8dbba90e-05a5-4f3f-963f-71b457150f6d.png)
 There could be only one admin:-
 ![image](https://user-images.githubusercontent.com/109899959/229935914-063a1c8b-81ba-4f47-bf47-d06116473b0f.png)
-
+Log file
+![image](https://user-images.githubusercontent.com/109899959/229936759-7763ec2e-4646-4cec-89d6-45c364674477.png)
+this is also logged in the database .
